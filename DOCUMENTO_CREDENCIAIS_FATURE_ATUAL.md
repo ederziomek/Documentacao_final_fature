@@ -238,20 +238,71 @@ DATA_SERVICE_API_KEY=[API_KEY_DATA_DISPONIVEL_EM_AMBIENTE_SEGURO]
 }
 ```
 
-### **Regras de Validação CPA:**
+### **Regras de Validação CPA (Modelo Flexível - ATIVO):**
 ```json
 {
-  "cpa_validation_rules": {
-    "groups": [{
-      "operator": "AND",
+  "model_name": "Modelo Flexível (Padrão)",
+  "model_description": "Depósito mínimo: 30 R$ AND Apostas mínimas: 10 apostas) OR (Depósito mínimo: 30 R$ AND GGR mínimo: 25 R$)",
+  "status": "ATIVO",
+  "global_operator": "OR",
+  "groups": [
+    {
+      "group_id": 1,
+      "group_name": "Depósito + Apostas",
+      "operator": "E",
       "criteria": [
-        {"type": "deposit", "value": 30.00, "enabled": true},
-        {"type": "bets", "value": 10, "enabled": true},
-        {"type": "bet_amount", "value": 100.00, "enabled": true},
-        {"type": "days_active", "value": 3, "enabled": true}
+        {
+          "type": "deposit",
+          "label": "Depósito mínimo",
+          "value": 30.00,
+          "currency": "R$",
+          "enabled": true
+        },
+        {
+          "type": "bets_count",
+          "label": "Apostas mínimas",
+          "value": 10,
+          "unit": "apostas",
+          "enabled": true
+        },
+        {
+          "type": "ggr",
+          "label": "GGR mínimo",
+          "value": 0,
+          "currency": "R$",
+          "enabled": false
+        }
       ]
-    }]
-  }
+    },
+    {
+      "group_id": 2,
+      "group_name": "Depósito + GGR",
+      "operator": "E",
+      "criteria": [
+        {
+          "type": "deposit",
+          "label": "Depósito mínimo",
+          "value": 30.00,
+          "currency": "R$",
+          "enabled": true
+        },
+        {
+          "type": "bets_count",
+          "label": "Apostas mínimas",
+          "value": 0,
+          "unit": "apostas",
+          "enabled": false
+        },
+        {
+          "type": "ggr",
+          "label": "GGR mínimo",
+          "value": 25.00,
+          "currency": "R$",
+          "enabled": true
+        }
+      ]
+    }
+  ]
 }
 ```
 
